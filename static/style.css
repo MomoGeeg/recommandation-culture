@@ -1,0 +1,243 @@
+:root {
+  --vert: #2e7d32;
+  --vert-fonce: #1b5e20;
+  --vert-clair: #e8f5e9;
+  --gris: #5f6b66;
+  --rouge: #c62828;
+  --rouge-clair: #fdecea;
+  --orange: #ef6c00;
+  --orange-clair: #fff3e0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Segoe UI", Arial, sans-serif;
+  color: #1f2a24;
+  background: linear-gradient(160deg, #e8f5e9 0%, #f9fbe7 100%);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 32px 16px;
+}
+
+.carte {
+  width: 100%;
+  max-width: 1000px;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+h1 {
+  margin: 0 0 8px;
+  color: var(--vert-fonce);
+  font-size: 1.7rem;
+}
+.intro {
+  margin: 0 0 24px;
+  color: var(--gris);
+}
+
+/* Mise en page : formulaire à gauche, résultat à droite */
+.mise-en-page {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+/* Formulaire */
+.grille {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.champ label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 4px;
+  font-size: 0.95rem;
+}
+
+.champ .plage {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--gris);
+  margin-bottom: 6px;
+}
+
+.champ input {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 1rem;
+  border: 1.5px solid #cfd8dc;
+  border-radius: 8px;
+}
+
+.champ input:focus {
+  outline: none;
+  border-color: var(--vert);
+  box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.2);
+}
+
+button {
+  width: 100%;
+  margin-top: 24px;
+  padding: 14px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #ffffff;
+  background: var(--vert);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+button:hover {
+  background: var(--vert-fonce);
+}
+
+button:focus-visible,
+.retour:focus-visible {
+  outline: 3px solid rgba(46, 125, 50, 0.45);
+  outline-offset: 2px;
+}
+
+/* Messages */
+.erreur {
+  background: var(--rouge-clair);
+  color: var(--rouge);
+  border-left: 4px solid var(--rouge);
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.avertissement {
+  background: var(--orange-clair);
+  color: var(--orange);
+  border-left: 4px solid var(--orange);
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin: 0 0 16px;
+}
+
+/* Zone de résultat */
+.section-resultats {
+  background: #fafcfb;
+  border: 1px solid #e0e6e3;
+  border-radius: 12px;
+  padding: 20px;
+  position: sticky;
+  top: 24px;
+}
+
+.section-resultats h2 {
+  margin: 0 0 16px;
+  color: var(--vert-fonce);
+  font-size: 1.4rem;
+}
+
+.attente {
+  color: var(--gris);
+  text-align: center;
+  padding: 24px 8px;
+  margin: 0;
+}
+
+.resultat {
+  padding: 16px;
+  border-radius: 12px;
+  background: #f5f7f6;
+  margin-bottom: 12px;
+}
+
+.resultat.premier {
+  background: var(--vert-clair);
+  border: 2px solid var(--vert);
+}
+
+.resultat .ligne {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 8px;
+}
+
+.resultat .nom {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+.resultat.premier .nom {
+  font-size: 1.4rem;
+  color: var(--vert-fonce);
+}
+.resultat .pourcent {
+  font-weight: 700;
+}
+
+.barre {
+  height: 10px;
+  background: #dfe5e2;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.barre span {
+  display: block;
+  height: 100%;
+  background: var(--vert);
+}
+
+.note {
+  font-size: 0.85rem;
+  color: var(--gris);
+  font-style: italic;
+  margin-top: 20px;
+}
+
+.retour {
+  display: inline-block;
+  margin-top: 16px;
+  color: var(--vert-fonce);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.retour:hover {
+  text-decoration: underline;
+}
+
+/* Écrans moyens : résultat sous le formulaire */
+@media (max-width: 820px) {
+  .mise-en-page {
+    grid-template-columns: 1fr;
+  }
+  .section-resultats {
+    position: static;
+  }
+}
+
+/* Petits écrans : champs sur une seule colonne */
+@media (max-width: 520px) {
+  .carte {
+    padding: 20px;
+  }
+  .grille {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Recommandation de culture</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    {% set libelles = { 'Nitrogen': 'Azote (N)', 'Phosphorus': 'Phosphore (P)',
+    'Potassium': 'Potassium (K)', 'Temperature': 'Température (°C)', 'Humidity':
+    'Humidité (%)', 'pH_Value': 'pH du sol', 'Rainfall': 'Pluviométrie (mm)' }
+    %}
+
+    <main class="carte">
+      <h1>🌱 Recommandation de culture</h1>
+      <p class="intro">
+        Entrez les caractéristiques du sol et du climat pour obtenir les
+        cultures les plus adaptées.
+      </p>
+
+      {% if erreur %}
+      <div class="erreur"><strong>⚠️ {{ erreur }}</strong></div>
+      {% endif %}
+
+      <div class="mise-en-page">
+        <form method="post" action="/predict#resultats">
+          <div class="grille">
+            {% for col in colonnes %}
+            <div class="champ">
+              <label for="{{ col }}">{{ libelles[col] }}</label>
+              <span class="plage"
+                >de {{ plages[col][0] }} à {{ plages[col][1] }}</span
+              >
+              <input
+                type="number"
+                step="any"
+                id="{{ col }}"
+                name="{{ col }}"
+                min="{{ plages[col][0] }}"
+                max="{{ plages[col][1] }}"
+                value="{{ saisies.get(col, '') }}"
+                required
+              />
+            </div>
+            {% endfor %}
+          </div>
+
+          <button type="submit">Recommander une culture</button>
+        </form>
+
+        <section id="resultats" class="section-resultats">
+          <h2>🌾 Cultures recommandées</h2>
+
+          {% if resultats %} {% if resultats[0].proba < 50 %}
+          <div class="avertissement">
+            ⚠️ Le modèle est peu sûr de lui (moins de 50 % pour la première
+            culture). Prenez ce résultat avec prudence.
+          </div>
+          {% endif %} {% for r in resultats %}
+          <div class="resultat {% if loop.first %}premier{% endif %}">
+            <div class="ligne">
+              <span class="nom">{{ loop.index }}. {{ r.culture }}</span>
+              <span class="pourcent">{{ r.proba }} %</span>
+            </div>
+            <div class="barre"><span style="width: {{ r.proba }}%"></span></div>
+          </div>
+          {% endfor %}
+
+          <p class="note">
+            Recommandation indicative, à confirmer avec un technicien agricole.
+          </p>
+          <a class="retour" href="/">↺ Effacer et recommencer</a>
+          {% else %}
+          <p class="attente">
+            Remplissez le formulaire puis cliquez sur « Recommander une culture
+            » : le résultat s'affichera ici.
+          </p>
+          {% endif %}
+        </section>
+      </div>
+    </main>
+  </body>
+</html>

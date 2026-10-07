@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Résultat</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    <main class="carte">
+      <h1>🌾 Cultures recommandées</h1>
+      <p class="intro">
+        Les trois cultures les plus adaptées à ces conditions.
+      </p>
+
+      {% if resultats[0].proba < 50 %}
+      <div class="avertissement">
+        ⚠️ Le modèle est peu sûr de lui (moins de 50 % pour la première
+        culture). Prenez ce résultat avec prudence.
+      </div>
+      {% endif %} {% for r in resultats %}
+      <div class="resultat {% if loop.first %}premier{% endif %}">
+        <div class="ligne">
+          <span class="nom">{{ loop.index }}. {{ r.culture }}</span>
+          <span class="pourcent">{{ r.proba }} %</span>
+        </div>
+        <div class="barre"><span style="width: {{ r.proba }}%"></span></div>
+      </div>
+      {% endfor %}
+
+      <p class="note">
+        Recommandation indicative, à confirmer avec un technicien agricole.
+      </p>
+      <a class="retour" href="/">← Nouvelle recommandation</a>
+    </main>
+  </body>
+</html>
